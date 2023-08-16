@@ -652,7 +652,7 @@ class FileMakerConnection extends Connection
     /**
      * @throws FileMakerDataApiException
      */
-    protected function makeRequest($method, $url, $params = [], ?PendingRequest $request = null)
+    protected function makeRequest($method, $url, $params = [], PendingRequest $request = null)
     {
         $this->login();
 
@@ -740,11 +740,11 @@ class FileMakerConnection extends Connection
         return new FMGrammar();
     }
 
-//    public function getLayoutMetadata($layout = null)
-//    {
-//        $response = $this->makeRequest('get', $this->getLayoutUrl($layout));
-//        return $response['response'];
-//    }
+    //public function getLayoutMetadata($layout = null)
+    //{
+    //    $response = $this->makeRequest('get', $this->getLayoutUrl($layout));
+    //    return $response['response'];
+    //}
 
     /**
      * @param  string|FMBaseBuilder  $query
