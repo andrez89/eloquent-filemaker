@@ -11,6 +11,7 @@ use GuzzleHttp\Exception\TransferException;
 use GuzzleHttp\Middleware;
 use Illuminate\Database\Connection;
 use Illuminate\Http\Client\PendingRequest;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
@@ -454,7 +455,7 @@ class FileMakerConnection extends Connection
         return $response;
     }
 
-    protected function buildPostDataFromQuery(FMBaseBuilder $query)
+    public function buildPostDataFromQuery(FMBaseBuilder $query)
     {
         $postData = [];
 
@@ -558,12 +559,18 @@ class FileMakerConnection extends Connection
         }
 
         // if it's an array, it could be a file => filename key-value pair.
-        // it's a conainer if the first object in the array is a file
+        // it's a container if the first object in the array is a file
         if (is_array($field) && count($field) === 2 && $this->isFile($field[0])) {
             return true;
         }
 
         return false;
+    }
+
+    protected function isFile($object)
+    {
+        return is_a($object, \Illuminate\Http\File::class) ||
+            is_a($object, UploadedFile::class);
     }
 
     public function executeScript(FMBaseBuilder $query)
